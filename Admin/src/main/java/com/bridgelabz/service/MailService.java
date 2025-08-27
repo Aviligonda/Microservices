@@ -16,7 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.Properties;
-
+/**
+ * Purpose : MailService used to Send a mail
+ * @author : Aviligonda Sreenivasulu
+ * */
 @Component
 @Slf4j
 public class MailService {

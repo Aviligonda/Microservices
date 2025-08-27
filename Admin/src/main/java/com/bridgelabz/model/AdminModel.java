@@ -11,7 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * Purpose : AdminModel Are Used Create A table and connection to Database
+ *
+ * @author : Aviligonda Sreenivasulu
+ **/
 @Data
 @Entity
 @Table(name = "Admin")

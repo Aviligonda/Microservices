@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.bridgelabz.util.ResponseClass;
-
+/**
+ * Purpose : AdminExceptionHandler to Handle the Exceptions
+ * @author : Aviligonda Sreenivasulu
+ * */
 @ControllerAdvice
 public class AdminExceptionHandler {
 	@ExceptionHandler
