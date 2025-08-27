@@ -25,6 +25,8 @@ public class UserModel {
 	private int age;
 	private String email;
 	private String password;
+	private int OTP;
+	private boolean verifyUser;
 	private LocalDateTime creatdTime;
 	private LocalDateTime updatedTime;
 

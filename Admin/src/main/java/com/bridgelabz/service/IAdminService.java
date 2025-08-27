@@ -17,6 +17,10 @@ public interface IAdminService {
 
 	Response login(String email, String password);
 
-	Response verify(String token);
+	Response verify(String AdminToken);
+
+	Response changePassword(String email, String oldPassword, String newPassword);
+
+	Response forgotpassword(String email, String password);
 
 }

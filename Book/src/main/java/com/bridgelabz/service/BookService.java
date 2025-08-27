@@ -23,8 +23,8 @@ public class BookService implements IBookService {
 	RestTemplate restTemplate;
 
 	@Override
-	public Response addBook(BookDTO bookDTO, String token) {
-		AdminResponse isAdmin = restTemplate.getForObject("http://Admin:8080/admin/verify/" + token,
+	public Response addBook(BookDTO bookDTO, String adminToken) {
+		AdminResponse isAdmin = restTemplate.getForObject("http://Admin:8080/admin/verify/" + adminToken,
 				AdminResponse.class);
 		if (isAdmin.getCode() == 200) {
 			BookModel bookModel = new BookModel(bookDTO);
@@ -60,8 +60,8 @@ public class BookService implements IBookService {
 	}
 
 	@Override
-	public Response updateBook(Long id, BookDTO bookDTO, String token) {
-		AdminResponse isAdmin = restTemplate.getForObject("http://Admin:8080/admin/verify/" + token,
+	public Response updateBook(Long id, BookDTO bookDTO, String adminToken) {
+		AdminResponse isAdmin = restTemplate.getForObject("http://Admin:8080/admin/verify/" + adminToken,
 				AdminResponse.class);
 		if (isAdmin.getCode() == 200) {
 			// TODO Auto-generated method stub
@@ -81,8 +81,8 @@ public class BookService implements IBookService {
 	}
 
 	@Override
-	public Response deleteBook(Long id, String token) {
-		AdminResponse isAdmin = restTemplate.getForObject("http://Admin:8080/admin/verify/" + token,
+	public Response deleteBook(Long id, String adminToken) {
+		AdminResponse isAdmin = restTemplate.getForObject("http://Admin:8080/admin/verify/" + adminToken,
 				AdminResponse.class);
 		if (isAdmin.getCode() == 200) {
 			// TODO Auto-generated method stub
@@ -132,6 +132,26 @@ public class BookService implements IBookService {
 		}
 		// TODO Auto-generated method stub
 		throw new BookException(500, "No Book found with this id");
+	}
+
+	@Override
+	public Response search(String bookName) {
+		// TODO Auto-generated method stub
+		List<BookModel> isBook = repository.findByBookNameContainsIgnoreCase(bookName);
+		if (isBook.size() > 0) {
+			return new Response(200, isBook.size() + " Books found with this name ", isBook);
+		}
+		throw new BookException(400, "not found");
+	}
+
+	@Override
+	public Response searchByAuthorName(String authorName) {
+		// TODO Auto-generated method stub
+		List<BookModel> isAuthor = repository.findByBookAuthorContainsIgnoreCase(authorName);
+		if (isAuthor.size() > 0) {
+			return new Response(200, isAuthor.size() + " authors found with this name ", isAuthor);
+		}
+		throw new BookException(400, "not found");
 	}
 
 }

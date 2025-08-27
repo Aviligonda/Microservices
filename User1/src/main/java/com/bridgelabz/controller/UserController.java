@@ -1,6 +1,5 @@
 package com.bridgelabz.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,44 +33,61 @@ public class UserController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<Response> addUser(@Valid @RequestBody UserDTO user,@RequestHeader String token) {
-		Response response = userService.createUser(user,token);
+	public ResponseEntity<Response> addUser(@Valid @RequestBody UserDTO user, @RequestHeader String adminToken) {
+		Response response = userService.createUser(user, adminToken);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("/get/{id}")
-	public ResponseEntity<Response> getUser(@PathVariable Long id, @RequestHeader String token) {
-		Response response = userService.getUser(id, token);
+	public ResponseEntity<Response> getUser(@PathVariable Long id, @RequestHeader String admintoken) {
+		Response response = userService.getUser(id, admintoken);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("/getAll")
-	public ResponseEntity<Response> getAll( @RequestHeader String token) {
-		Response response = userService.getAll(token);
+	public ResponseEntity<Response> getAll(@RequestHeader String adminToken) {
+		Response response = userService.getAll(adminToken);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody UserDTO userDTO, @RequestHeader String token) {
-		Response response = userService.update(id, userDTO,token);
+	public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody UserDTO userDTO,
+			@RequestHeader String adminToken) {
+		Response response = userService.update(id, userDTO, adminToken);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Response> delete(@PathVariable Long id, @RequestHeader String token) {
-		Response response = userService.delete(id,token);
+	public ResponseEntity<Response> delete(@PathVariable Long id, @RequestHeader String adminToken) {
+		Response response = userService.delete(id, adminToken);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<Response> login(@RequestParam String email, @RequestParam String password) {
-		Response response = userService.login(email,password);
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
-	@GetMapping("/verify/{token}")
-	public ResponseEntity<Response> verify(@PathVariable String token) {
-		Response response = userService.verify(token);
+		Response response = userService.login(email, password);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	@GetMapping("/verify/{userToken}")
+	public ResponseEntity<Response> verify(@PathVariable String userToken) {
+		Response response = userService.verify(userToken);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@GetMapping("search")
+	public ResponseEntity<Response> search(@RequestParam String name) {
+		Response response = userService.search(name);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	@PutMapping("verificationUser")
+	public ResponseEntity<Response> verificationUser(@RequestHeader String userToken, @RequestParam Long otp) {
+		Response response = userService.verificationUser(userToken,otp);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	@PostMapping("sendOtp")
+	public ResponseEntity<Response> reSendOtp(@RequestHeader String userToken) {
+		Response response = userService.reSendOtp(userToken);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 }

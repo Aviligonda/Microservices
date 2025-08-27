@@ -5,13 +5,13 @@ import com.bridgelabz.util.Response;
 
 public interface IAddressService {
 
-	Response addAddress(String token, AddressDTO addressDTO);
+	Response addAddress(String userToken, AddressDTO addressDTO);
 
-	Response updateAddress(String token, AddressDTO addressDTO, Long addressId);
+	Response updateAddress(String userToken, AddressDTO addressDTO, Long addressId);
 
 
-	Response gettAllAddressForUser(String token);
+	Response gettAllAddressForUser(String userToken);
 
-	Response deleteAddress(String token, Long addressId);
+	Response deleteAddress(String userToken, Long addressId);
 
 }

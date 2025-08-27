@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.dto.BookDTO;
@@ -25,8 +26,8 @@ public class BooksController {
 	IBookService bookService;
 
 	@PostMapping("/add")
-	public ResponseEntity<Response> addBook(@RequestBody BookDTO bookDTO, @RequestHeader String token) {
-		Response response = bookService.addBook(bookDTO, token);
+	public ResponseEntity<Response> addBook(@RequestBody BookDTO bookDTO, @RequestHeader String adminToken) {
+		Response response = bookService.addBook(bookDTO, adminToken);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
@@ -44,14 +45,14 @@ public class BooksController {
 
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Response> updaeteBook(@PathVariable Long id, @RequestBody BookDTO bookDTO,
-			@RequestHeader String token) {
-		Response response = bookService.updateBook(id, bookDTO, token);
+			@RequestHeader String adminToken) {
+		Response response = bookService.updateBook(id, bookDTO, adminToken);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Response> deleteBook(@PathVariable Long id, @RequestHeader String token) {
-		Response response = bookService.deleteBook(id, token);
+	public ResponseEntity<Response> deleteBook(@PathVariable Long id, @RequestHeader String adminToken) {
+		Response response = bookService.deleteBook(id, adminToken);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
@@ -71,6 +72,17 @@ public class BooksController {
 	public ResponseEntity<Response> incresingBookQuantity(@PathVariable Long bookId, @PathVariable Long quantity) {
 		Response response = bookService.incresingBookQuantity(bookId, quantity);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
+	@GetMapping("search")
+	public ResponseEntity<Response> search(@RequestParam String bookName) {
+		Response response = bookService.search(bookName);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	@GetMapping("searchByAuthor")
+	public ResponseEntity<Response> searchByAuthorName(@RequestParam String authorName) {
+		Response response = bookService.searchByAuthorName(authorName);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }

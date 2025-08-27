@@ -4,10 +4,10 @@ import com.bridgelabz.util.Response;
 
 public interface IOrderService {
 
-	Response placeOrder(String token, Long addressId, Long cartId);
+	Response placeOrder(String userToken, Long addressId, Long cartId);
 
-	Response cancelOrder(String token, Long orderId);
+	Response cancelOrder(String userToken, Long orderId);
 
-	Response getAllOrdersForUser(String token);
+	Response getAllOrdersForUser(String userToken);
 
 }
