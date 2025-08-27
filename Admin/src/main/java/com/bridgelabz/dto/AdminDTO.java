@@ -1,7 +1,10 @@
 package com.bridgelabz.dto;
 
 import lombok.Data;
-
+/**
+ * Purpose : AdminDTO fields are Used to Create and Update Admin Details
+ * @author : Aviligonda Sreenivasulu
+ * */
 @Data
 public class AdminDTO {
 

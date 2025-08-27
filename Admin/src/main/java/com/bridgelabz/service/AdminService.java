@@ -15,6 +15,11 @@ import com.bridgelabz.repository.AdminRepository;
 import com.bridgelabz.util.Response;
 import com.bridgelabz.util.TokenUtil;
 
+/**
+ * Purpose : AdminService to Implement the Business Logic
+ *
+ * @author : Aviligonda Sreenivasulu
+ */
 @Service
 public class AdminService implements IAdminService {
 
@@ -25,6 +30,13 @@ public class AdminService implements IAdminService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	/**
+	 * Purpose : Implement the Logic of Creating Admin Details
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 * @Param : adminModel
+	 * @return : admin details
+	 **/
 	@Override
 	public Response create(AdminDTO model) {
 		List<AdminModel> isAdmin = repository.findAll();
@@ -48,6 +60,13 @@ public class AdminService implements IAdminService {
 		throw new AdminException(400, "Admins are full");
 	}
 
+	/**
+	 * Purpose : Implement the Logic of update Admin Details
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 * @Param : adminModel,adminId
+	 * @return : updating admin detials
+	 **/
 	@Override
 	public Response update(Long id, AdminDTO model) {
 		// TODO Auto-generated method stub
@@ -64,6 +83,13 @@ public class AdminService implements IAdminService {
 		throw new AdminException(400, "Admin not found with this id");
 	}
 
+	/**
+	 * Purpose : Implement the Logic of get Admin Details using adminId
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 * @Param : adminId
+	 * @return : get admin details
+	 **/
 	@Override
 	public Response getAdmin(Long id) {
 		// TODO Auto-generated method stub
@@ -74,6 +100,13 @@ public class AdminService implements IAdminService {
 		throw new AdminException(400, "Admin not found with this id");
 	}
 
+	/**
+	 * Purpose : Implement the Logic of get All Admin Details
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 * @Param :
+	 * @return : getAll admin details
+	 **/
 	@Override
 	public Response getAllAdmins() {
 		// TODO Auto-generated method stub
@@ -84,6 +117,13 @@ public class AdminService implements IAdminService {
 		throw new AdminException(400, "Admins not found ");
 	}
 
+	/**
+	 * Purpose : Implement the Logic of delete Admin Details
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 * @Param : adminId
+	 * @return : deleted admin details
+	 **/
 	@Override
 	public Response delete(Long id) {
 		Optional<AdminModel> isAdmin = repository.findById(id);
@@ -94,6 +134,13 @@ public class AdminService implements IAdminService {
 		throw new AdminException(400, "Admin not found with this id");
 	}
 
+	/**
+	 * Purpose : Implement the Logic of Admin login
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 * @Param : adminEmail,adminPassword
+	 * @return : token
+	 **/
 	@Override
 	public Response login(String email, String password) {
 		// TODO Auto-generated method stub
@@ -106,6 +153,14 @@ public class AdminService implements IAdminService {
 
 	}
 
+	/**
+	 * Purpose : Implement the Logic of verify the Admin
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 * @Param : adminToken
+	 * @return : admin details
+	 * 
+	 **/
 	@Override
 	public Response verify(String adminToken) {
 		// TODO Auto-generated method stub
@@ -116,6 +171,14 @@ public class AdminService implements IAdminService {
 		}
 		throw new AdminException(400, "Admin is not found with this token");
 	}
+
+	/**
+	 * Purpose : Implement the Logic of change password of Admin
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 * @Param : adminEmail,adminOldPassword,adminNewPassword
+	 * @return : update admin password
+	 **/
 
 	@Override
 	public Response changePassword(String email, String oldPassword, String newPassword) {
@@ -131,6 +194,13 @@ public class AdminService implements IAdminService {
 		throw new AdminException(400, "Admin not found with this id");
 	}
 
+	/**
+	 * Purpose : Implement the Logic of forgot password of Admin
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 * @Param : adminEmail,adminNewPassword
+	 * @return : update admin password
+	 **/
 	@Override
 	public Response forgotpassword(String email, String password) {
 		Optional<AdminModel> isAdmin = repository.findByEmail(email);

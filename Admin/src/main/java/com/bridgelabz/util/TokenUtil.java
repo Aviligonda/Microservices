@@ -8,7 +8,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.Verification;
-
+/**
+ * Purpose : TokenUtil to Process the Tokens
+ * @author : Aviligonda Sreenivasulu
+ * */
 @Component
 public class TokenUtil {
 	private final String TOKEN_SECRET = "LoginToken";

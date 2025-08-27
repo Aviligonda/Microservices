@@ -2,7 +2,10 @@ package com.bridgelabz.service;
 
 import com.bridgelabz.dto.AdminDTO;
 import com.bridgelabz.util.Response;
-
+/**
+ * Purpose : IAdminService to Show The all APIs
+ * @author : Aviligonda Sreenivasulu
+ * */
 public interface IAdminService {
 
 	Response create(AdminDTO model);

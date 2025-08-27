@@ -15,6 +15,13 @@ public class AdminApplication {
 		SpringApplication.run(AdminApplication.class, args);
 	}
 
+	/**
+	 * Purpose : Admin password Encode
+	 *
+	 * @author : Aviligonda Sreenivasulu
+	 *
+	 * @return : encoded password
+	 **/
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
