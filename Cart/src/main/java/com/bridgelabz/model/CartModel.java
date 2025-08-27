@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "cart")
+@Table(name = "CartService")
 @NoArgsConstructor
 public class CartModel {
 

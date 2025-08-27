@@ -31,9 +31,9 @@ public class OrderService implements IOrderService {
 	TokenUtil tokenUtil;
 
 	@Override
-	public Response placeOrder(String token, Long addressId, Long cartId) {
+	public Response placeOrder(String userToken, Long addressId, Long cartId) {
 
-		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserResponse.class);
 
 		if (userResponse.getCode() == 200) {
@@ -62,6 +62,8 @@ public class OrderService implements IOrderService {
 						throw new OrderException(400, "Address Id not found");
 					}
 					repository.save(orderModel);
+					CartResponse response = restTemplate.getForObject("http://Cart:8083/cart/remove/" + cartId,
+							CartResponse.class);
 					BookResponse bookResponse = restTemplate.getForObject("http://Book:8082/book/decresingBookQuantity/"
 							+ orderModel.getBookId() + "/" + orderModel.getQuantity(), BookResponse.class);
 					return new Response(200, "Success", orderModel);
@@ -76,10 +78,10 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public Response cancelOrder(String token, Long orderId) {
+	public Response cancelOrder(String userToken, Long orderId) {
 		// TODO Auto-generated method stub
 
-		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserResponse.class);
 
 		if (userResponse.getCode() == 200) {
@@ -100,13 +102,13 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
-	public Response getAllOrdersForUser(String token) {
+	public Response getAllOrdersForUser(String userToken) {
 
-		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserResponse.class);
 
 		if (userResponse.getCode() == 200) {
-			Long userId = tokenUtil.decodeToken(token);
+			Long userId = tokenUtil.decodeToken(userToken);
 			List<OrderModel> orders = repository.findAllByUserId(userId);
 			if (orders.size() > 0) {
 				return new Response(200, "Success", orders);

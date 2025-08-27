@@ -1,18 +1,21 @@
 package com.bridgelabz.dto;
 
+import io.micrometer.common.lang.NonNull;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
-
 @Data
 public class UserDTO {
-	@Pattern(regexp = "[A-Z][a-z]{2,}")
+	@NotNull(message = "Name not should be null")
 	private String name;
-//	@Pattern( message = "Not null", regexp = "")
+	@NotNull(message = "Gender not should be null")
 	private String gender;
-//	@Pattern(message = "Not null", regexp = "\\d{2}")
+	@NotNull(message = "Age not should be null")
 	private int age;
+	@NotNull(message = "email not should be null")
 	private String email;
+	@NotNull(message = "password not should be null")
 	private String password;
 
 }

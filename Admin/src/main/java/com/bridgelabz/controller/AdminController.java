@@ -62,9 +62,21 @@ public class AdminController {
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
-	@GetMapping("/verify/{token}")
-	public Response adminVerification(@PathVariable String token) {
-		return service.verify(token);
+	@GetMapping("/verify/{adminToken}")
+	public Response adminVerification(@PathVariable String adminToken) {
+		return service.verify(adminToken);
+	}
+
+	@PutMapping("changePassword")
+	public ResponseEntity<Response> changePassword(@RequestParam String email, @RequestParam String oldPassword,String newPassword) {
+		Response response = service.changePassword(email, oldPassword,newPassword);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
+	@PutMapping("forgotPassword")
+	public ResponseEntity<Response> forgotPassword(@RequestParam String email, @RequestParam String password) {
+		Response response = service.forgotpassword(email, password);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 }

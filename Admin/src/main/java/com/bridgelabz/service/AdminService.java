@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.dto.AdminDTO;
@@ -21,20 +22,28 @@ public class AdminService implements IAdminService {
 	AdminRepository repository;
 	@Autowired
 	TokenUtil tokenUtil;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	@Override
 	public Response create(AdminDTO model) {
 		List<AdminModel> isAdmin = repository.findAll();
-		if (isAdmin.size() < 2) {
+		if (isAdmin.size() < 3) {
 
 			AdminModel adminModel = new AdminModel(model);
 			adminModel.setCreateDateTime(LocalDateTime.now());
+			adminModel.setPassword(passwordEncoder.encode(model.getPassword()));
 			adminModel.setEmpId((int) (Math.random() * 1000));
-			repository.save(adminModel);
-			String subject = "Admin Registration Success";
-			String body = "Your Details is " + adminModel;
-			MailService.send(adminModel.getEmail(), body, subject);
-			return new Response(200, "Success", adminModel);
+			Optional<AdminModel> isAdminEmail = repository.findByEmail(model.getEmail());
+			if (isAdminEmail.isEmpty()) {
+				adminModel.setEmail(model.getEmail());
+				repository.save(adminModel);
+				String subject = "Admin Registration Success";
+				String body = "Your Details is " + adminModel;
+				MailService.send(adminModel.getEmail(), body, subject);
+				return new Response(200, "Success", adminModel);
+			}
+			throw new AdminException(400, "This Email alredy registred");
 		}
 		throw new AdminException(400, "Admins are full");
 	}
@@ -98,14 +107,38 @@ public class AdminService implements IAdminService {
 	}
 
 	@Override
-	public Response verify(String token) {
+	public Response verify(String adminToken) {
 		// TODO Auto-generated method stub
-		Long userId = tokenUtil.decodeToken(token);
+		Long userId = tokenUtil.decodeToken(adminToken);
 		Optional<AdminModel> isAdmin = repository.findById(userId);
 		if (isAdmin.isPresent()) {
 			return new Response(200, "Success", isAdmin.get());
 		}
 		throw new AdminException(400, "Admin is not found with this token");
+	}
+
+	@Override
+	public Response changePassword(String email, String oldPassword, String newPassword) {
+		Optional<AdminModel> isAdmin = repository.findByEmail(email);
+		if (isAdmin.isPresent()) {
+			if (isAdmin.get().getPassword().equals(passwordEncoder.matches(oldPassword, isAdmin.get().getPassword()))) {
+				isAdmin.get().setPassword(newPassword);
+				return new Response(200, "Success", isAdmin.get());
+			}
+			throw new AdminException(400, " password didn't match");
+
+		}
+		throw new AdminException(400, "Admin not found with this id");
+	}
+
+	@Override
+	public Response forgotpassword(String email, String password) {
+		Optional<AdminModel> isAdmin = repository.findByEmail(email);
+		if (isAdmin.isPresent()) {
+			isAdmin.get().setPassword(passwordEncoder.encode(password));
+			return new Response(200, "Success", isAdmin.get());
+		}
+		throw new AdminException(400, "Admin not found with this id");
 	}
 
 }

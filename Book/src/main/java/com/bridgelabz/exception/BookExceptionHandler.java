@@ -17,4 +17,5 @@ public class BookExceptionHandler {
 		responseClass.setMessage(exception.getLocalizedMessage());
 		return new ResponseEntity<>(responseClass, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
 }

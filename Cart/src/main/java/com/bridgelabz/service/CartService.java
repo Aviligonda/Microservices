@@ -23,8 +23,8 @@ public class CartService implements ICartService {
 	RestTemplate restTemplate;
 
 	@Override
-	public Response addToCart(String token, CartDTO cartDTO, Long bookId) {
-		UserRepsonse userRepsonse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+	public Response addToCart(String userToken, CartDTO cartDTO, Long bookId) {
+		UserRepsonse userRepsonse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserRepsonse.class);
 		if (userRepsonse.getCode() == 200) {
 			BookResponse bookResponse = restTemplate.getForObject("http://Book:8082/book/verify/" + bookId,
@@ -52,8 +52,8 @@ public class CartService implements ICartService {
 	}
 
 	@Override
-	public Response removingToCart(String token, Long cartId) {
-		UserRepsonse userRepsonse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+	public Response removingToCart(String userToken, Long cartId) {
+		UserRepsonse userRepsonse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserRepsonse.class);
 		if (userRepsonse.getCode() == 200) {
 			Optional<CartModel> isCartItem = cartRepository.findById(cartId);
@@ -71,9 +71,9 @@ public class CartService implements ICartService {
 	}
 
 	@Override
-	public Response updateQuantity(String token, Long qunatity, Long cartId) {
+	public Response updateQuantity(String userToken, Long qunatity, Long cartId) {
 
-		UserRepsonse userRepsonse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+		UserRepsonse userRepsonse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserRepsonse.class);
 		if (userRepsonse.getCode() == 200) {
 			Optional<CartModel> isCartItem = cartRepository.findById(cartId);
@@ -104,9 +104,9 @@ public class CartService implements ICartService {
 	}
 
 	@Override
-	public Response getAllCartItemsForUser(String token) {
+	public Response getAllCartItemsForUser(String userToken) {
 		// TODO Auto-generated method stub
-		UserRepsonse userRepsonse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+		UserRepsonse userRepsonse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserRepsonse.class);
 		if (userRepsonse.getCode() == 200) {
 			java.util.List<CartModel> list = cartRepository.findAll();
@@ -128,4 +128,14 @@ public class CartService implements ICartService {
 		throw new CartException(400, "No Cart items ");
 	}
 
+	@Override
+	public Response remove(Long cartId) {
+		Optional<CartModel> isCartItem = cartRepository.findById(cartId);
+		if (isCartItem.isPresent()) {
+			cartRepository.delete(isCartItem.get());
+			return new Response(200, "Succes", isCartItem.get());
+		}
+		throw new CartException(400, "cartId is Not Found");
+
+	}
 }

@@ -26,28 +26,28 @@ public class AddressController {
 	IAddressService service;
 
 	@PostMapping("add")
-	public ResponseEntity<Response> addAddress(@RequestHeader String token, @RequestBody AddressDTO addressDTO) {
-		Response response = service.addAddress(token, addressDTO);
+	public ResponseEntity<Response> addAddress(@RequestHeader String userToken, @RequestBody AddressDTO addressDTO) {
+		Response response = service.addAddress(userToken, addressDTO);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@PutMapping("update/{addressId}")
-	public ResponseEntity<Response> updateAddress(@RequestHeader String token, @RequestBody AddressDTO addressDTO,
+	public ResponseEntity<Response> updateAddress(@RequestHeader String userToken, @RequestBody AddressDTO addressDTO,
 			@PathVariable Long addressId) {
-		Response response = service.updateAddress(token, addressDTO,addressId);
+		Response response = service.updateAddress(userToken, addressDTO,addressId);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 
 	@GetMapping("getAllAddresssForUser")
-	public ResponseEntity<Response> getAllAddressForUser(@RequestHeader String token) {
-		Response response = service.gettAllAddressForUser(token);
+	public ResponseEntity<Response> getAllAddressForUser(@RequestHeader String userToken) {
+		Response response = service.gettAllAddressForUser(userToken);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@DeleteMapping("delete/{addressId}")
-	public ResponseEntity<Response> deleteAddress(@RequestHeader String token,@PathVariable Long addressId) {
-		Response response = service.deleteAddress(token, addressId);
+	public ResponseEntity<Response> deleteAddress(@RequestHeader String userToken,@PathVariable Long addressId) {
+		Response response = service.deleteAddress(userToken, addressId);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 }

@@ -26,34 +26,39 @@ public class CartController {
 	ICartService service;
 
 	@PostMapping("addToCart")
-	public ResponseEntity<Response> addToCartBook(@RequestHeader String token, @RequestBody CartDTO cartDTO,
+	public ResponseEntity<Response> addToCartBook(@RequestHeader String userToken, @RequestBody CartDTO cartDTO,
 			@RequestParam Long bookId) {
-		Response response = service.addToCart(token, cartDTO, bookId);
+		Response response = service.addToCart(userToken, cartDTO, bookId);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@DeleteMapping("removingToCart/{cartId}")
-	public ResponseEntity<Response> removingToCart(@RequestHeader String token, @PathVariable Long cartId) {
-		Response response = service.removingToCart(token, cartId);
+	public ResponseEntity<Response> removingToCart(@RequestHeader String userToken, @PathVariable Long cartId) {
+		Response response = service.removingToCart(userToken, cartId);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@PutMapping("updateQunatity/{cartId}")
-	public ResponseEntity<Response> updateQuantity(@RequestHeader String token, @PathVariable Long cartId,
+	public ResponseEntity<Response> updateQuantity(@RequestHeader String userToken, @PathVariable Long cartId,
 			@RequestParam Long qunatity) {
-		Response response = service.updateQuantity(token, qunatity, cartId);
+		Response response = service.updateQuantity(userToken, qunatity, cartId);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("/getAllCartItemsForUser")
-	public ResponseEntity<Response> getAllCartItemsForUser(@RequestHeader String token) {
-		Response response = service.getAllCartItemsForUser(token);
+	public ResponseEntity<Response> getAllCartItemsForUser(@RequestHeader String userToken) {
+		Response response = service.getAllCartItemsForUser(userToken);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("verify/{cartId}")
 	public ResponseEntity<Response> verifyCartItem(@PathVariable Long cartId) {
 		Response response = service.verifyCartItem(cartId);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+	@GetMapping("remove/{cartId}")
+	public ResponseEntity<Response> remove(@PathVariable Long cartId) {
+		Response response = service.remove(cartId);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 

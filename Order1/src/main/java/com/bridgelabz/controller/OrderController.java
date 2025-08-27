@@ -25,21 +25,21 @@ public class OrderController {
 	IOrderService service;
 
 	@PostMapping("placeOrder/{cartId}")
-	public ResponseEntity<Response> placeOrder(@RequestHeader String token, @RequestParam Long addressId,
+	public ResponseEntity<Response> placeOrder(@RequestHeader String userToken, @RequestParam Long addressId,
 			@PathVariable Long cartId) {
-		Response response = service.placeOrder(token, addressId, cartId);
+		Response response = service.placeOrder(userToken, addressId, cartId);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@PutMapping("cancelOrder/{orderId}")
-	public ResponseEntity<Response> cancelOrder(@RequestHeader String token, @PathVariable Long orderId) {
-		Response response = service.cancelOrder(token, orderId);
+	public ResponseEntity<Response> cancelOrder(@RequestHeader String userToken, @PathVariable Long orderId) {
+		Response response = service.cancelOrder(userToken, orderId);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("getAllOrders")
-	public ResponseEntity<Response> getAllOrdersForUser(@RequestHeader String token) {
-		Response response = service.getAllOrdersForUser(token);
+	public ResponseEntity<Response> getAllOrdersForUser(@RequestHeader String userToken) {
+		Response response = service.getAllOrdersForUser(userToken);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 }

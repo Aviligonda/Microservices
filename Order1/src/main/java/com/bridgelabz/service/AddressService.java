@@ -26,9 +26,9 @@ public class AddressService implements IAddressService {
 	TokenUtil tokenUtil;
 
 	@Override
-	public Response addAddress(String token, AddressDTO addressDTO) {
+	public Response addAddress(String userToken, AddressDTO addressDTO) {
 
-		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserResponse.class);
 
 		if (userResponse.getCode() == 200) {
@@ -42,9 +42,9 @@ public class AddressService implements IAddressService {
 	}
 
 	@Override
-	public Response updateAddress(String token, AddressDTO addressDTO, Long addressId) {
+	public Response updateAddress(String userToken, AddressDTO addressDTO, Long addressId) {
 		// TODO Auto-generated method stub
-		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserResponse.class);
 
 		if (userResponse.getCode() == 200) {
@@ -64,13 +64,13 @@ public class AddressService implements IAddressService {
 	}
 
 	@Override
-	public Response gettAllAddressForUser(String token) {
+	public Response gettAllAddressForUser(String userToken) {
 		// TODO Auto-generated method stub
-		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserResponse.class);
 
 		if (userResponse.getCode() == 200) {
-			Long userId = tokenUtil.decodeToken(token);
+			Long userId = tokenUtil.decodeToken(userToken);
 			List<AddressModel> addressModels = repository.findAllByUserId(userId);
 			if (addressModels.size() > 0) {
 				return new Response(200, "Success", addressModels);
@@ -81,9 +81,9 @@ public class AddressService implements IAddressService {
 	}
 
 	@Override
-	public Response deleteAddress(String token, Long addressId) {
+	public Response deleteAddress(String userToken, Long addressId) {
 		// TODO Auto-generated method stub
-		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + token,
+		UserResponse userResponse = restTemplate.getForObject("http://User:8081/user/verify/" + userToken,
 				UserResponse.class);
 
 		if (userResponse.getCode() == 200) {
